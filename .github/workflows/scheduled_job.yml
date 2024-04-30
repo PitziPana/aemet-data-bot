@@ -1,0 +1,20 @@
+name: Run Weather Script
+
+on:
+  schedule:
+    - cron: '0 10 * * *'  # Ejecuta todos los días a las 10 AM UTC
+  workflow_dispatch:  # Permite ejecuciones manuales desde GitHub
+
+jobs:
+  execute_script:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+    - name: Run the script
+      run: python ./charo.py
