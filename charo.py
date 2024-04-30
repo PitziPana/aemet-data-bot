@@ -59,7 +59,8 @@ def main():
         'Ayamonte': '4642E'  # Asegúrate de que el ID está correcto y es '0259'
     }
     token = '6659256025:AAHUvQ06xgIohzI9CSxPkcNwy2Igg0ZfMyU'
-    chat_id = '-1002126569924'
+    chat_id = '317007077
+'
 
     for nombre, estacion_id in estaciones.items():
         datos_meteorologicos = obtener_datos_meteorologicos(api_key, estacion_id)
