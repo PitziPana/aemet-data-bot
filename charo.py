@@ -60,7 +60,7 @@ def main():
     }
     token = '6659256025:AAHUvQ06xgIohzI9CSxPkcNwy2Igg0ZfMyU'
     chat_id = '-1002126569924'
-'
+
 
     for nombre, estacion_id in estaciones.items():
         datos_meteorologicos = obtener_datos_meteorologicos(api_key, estacion_id)
