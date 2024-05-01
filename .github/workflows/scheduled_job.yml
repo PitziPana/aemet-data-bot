@@ -2,7 +2,7 @@ name: Run Weather Script
 
 on:
   schedule:
-    - cron: '0 10 * * *'  # Ejecuta todos los días a las 10 AM UTC
+    - cron: '30 10 * * *'  # Ejecuta todos los días a las 10:30 AM UTC
   workflow_dispatch:  # Permite ejecuciones manuales desde GitHub
 
 jobs:
