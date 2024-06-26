@@ -5,6 +5,8 @@ import pytz
 from datetime import datetime
 
 def obtener_datos_meteorologicos(api_key, estacion_id):
+    if not api_key:
+        return "API_KEY no proporcionada."
     url = f"https://opendata.aemet.es/opendata/api/observacion/convencional/datos/estacion/{estacion_id}/"
     headers = {"Authorization": f"Bearer {api_key}"}
     response = requests.get(url, headers=headers)
@@ -27,6 +29,13 @@ def obtener_datos_meteorologicos(api_key, estacion_id):
         return f"Error: {response.status_code}"
 
 def enviar_datos_telegram(token, chat_id, datos, estacion_nombre):
+    if not token:
+        print("TELEGRAM_TOKEN no proporcionado.")
+        return
+    if not chat_id:
+        print("TELEGRAM_CHAT_ID no proporcionado.")
+        return
+
     bot = telebot.TeleBot(token)
     if isinstance(datos, dict):
         utc_time = datetime.strptime(datos['fint'], '%Y-%m-%dT%H:%M:%S%z')
