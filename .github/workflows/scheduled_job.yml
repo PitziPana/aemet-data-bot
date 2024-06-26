@@ -1,27 +1,14 @@
-name: Ejecutar script meteorológico
+name: Depurar variables de entorno
 
 on:
-  schedule:
-    - cron: '30 11 * * *' # Ejecuta todos los días a las 11:30 AM UTC
   workflow_dispatch: # Permite ejecuciones manuales desde GitHub
 
 jobs:
-  execute_script:
+  debug_environment_variables:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-
-    - name: Install dependencies
-      run: pip install -r requirements.txt
-
-    - name: Debug environment variables
+    - name: Print environment variables for debugging
       run: |
         echo "TELEGRAM_TOKEN: $TELEGRAM_TOKEN"
         echo "TELEGRAM_CHAT_ID: $TELEGRAM_CHAT_ID"
@@ -31,10 +18,4 @@ jobs:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         API_KEY: ${{ secrets.API_KEY }}
 
-    - name: Run script
-      env:
-        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        API_KEY: ${{ secrets.API_KEY }}
-      run: python ./charo.py
 
