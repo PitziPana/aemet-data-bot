@@ -1,12 +1,10 @@
-name: Ejecutar script meteorológico
+name: Test Telegram API
 
 on:
-  schedule:
-    - cron: '30 11 * * *' # Ejecuta todos los días a las 11:30 AM UTC
-  workflow_dispatch: # Permite ejecuciones manuales desde GitHub
+  workflow_dispatch:
 
 jobs:
-  execute_script:
+  test_telegram_api:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,12 +17,10 @@ jobs:
         python-version: '3.x'
 
     - name: Install dependencies
-      run: pip install -r requirements.txt
+      run: pip install pyTelegramBotAPI
 
-    - name: Run script
+    - name: Run test script
       env:
         TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        API_KEY: ${{ secrets.API_KEY }}
-      run: python ./charo.py
-
+      run: python ./test_telegram.py
