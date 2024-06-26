@@ -21,11 +21,11 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
-    - name: Print environment variables for debugging
+    - name: Debug environment variables
       run: |
-        echo "TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}"
-        echo "TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}"
-        echo "API_KEY: ${{ secrets.API_KEY }}"
+        echo "TELEGRAM_TOKEN: $TELEGRAM_TOKEN"
+        echo "TELEGRAM_CHAT_ID: $TELEGRAM_CHAT_ID"
+        echo "API_KEY: $API_KEY"
       env:
         TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -37,3 +37,4 @@ jobs:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         API_KEY: ${{ secrets.API_KEY }}
       run: python ./charo.py
+
