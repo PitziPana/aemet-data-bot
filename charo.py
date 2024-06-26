@@ -58,9 +58,8 @@ def main():
         'Mayorga': '2664B',
         'Ayamonte': '4642E'  # Asegúrate de que el ID está correcto y es '0259'
     }
-    token = '6659256025:AAHUvQ06xgIohzI9CSxPkcNwy2Igg0ZfMyU'
-    chat_id = '-1002126569924'
-
+    token = '6659256025:AAFK3y_PbW3zhGzURyEc9v-7cZ1v9LwvNpc'
+    chat_id = 317007077
 
     for nombre, estacion_id in estaciones.items():
         datos_meteorologicos = obtener_datos_meteorologicos(api_key, estacion_id)
@@ -68,3 +67,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
