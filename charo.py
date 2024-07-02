@@ -54,12 +54,15 @@ def main():
     # Valores directos
     api_key = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJKNDk0OEBpY2xvdWQuY29tIiwianRpIjoiMDU4ZDJiNzAtNGJiNC00MWE2LTk1MzEtZmJmOWZhY2M5NmRjIiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE3MTMyNDM4ODUsInVzZXJJZCI6IjA1OGQyYjcwLTRiYjQtNDFhNi05NTMxLWZiZjlmYWNjOTZkYyIsInJvbGUiOiIifQ.2QEECrTNbTmbBBo3hQCrI1sXu8Q8rHxUzT4q_-kfwxE'
     token = '6659256025:AAFK3y_PbW3zhGzURyEc9v-7cZ1v9LwvNpc'
-    chat_id = '317007077'
+    chat_id = '317007077',"1256474473"
 
     estaciones = {
         'Bilbao': '1082',
         'Mayorga': '2664B',
-        'Ayamonte': '4642E'
+        'Ayamonte': '4642E',
+        "Lugo": "1518A"
+        "Lugo/rozas": "1505"
+        "Mondoñedo": "1344"
     }
 
     for nombre, estacion_id in estaciones.items():
