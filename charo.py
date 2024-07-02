@@ -62,7 +62,7 @@ def main():
         'Ayamonte': '4642E',
         "Lugo": "1518A",
         "Lugo/rozas": "1505",
-        "Mondoñedo": "1344",
+        "Mondoñedo": "1344"
     }
 
     for nombre, estacion_id in estaciones.items():
