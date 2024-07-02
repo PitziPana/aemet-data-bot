@@ -17,13 +17,13 @@ def obtener_datos_meteorologicos(api_key, estacion_id):
                     ultima_entrada = sorted(datos_meteorologicos, key=lambda x: x['fint'], reverse=True)[0]
                     return ultima_entrada
                 else:
-                    return "No hay datos disponibles."
+                    return 'No hay datos disponibles.'
             else:
-                return f"Error al recuperar datos: {data_response.status_code}"
+                return f'Error al recuperar datos: {data_response.status_code}'
         else:
-            return "URL de datos no encontrada."
+            return 'URL de datos no encontrada.'
     else:
-        return f"Error: {response.status_code}"
+        return f'Error: {response.status_code}'
 
 def enviar_datos_telegram(token, chat_id, datos, estacion_nombre):
     bot = telebot.TeleBot(token)
@@ -31,7 +31,7 @@ def enviar_datos_telegram(token, chat_id, datos, estacion_nombre):
         utc_time = datetime.strptime(datos['fint'], '%Y-%m-%dT%H:%M:%S%z')
         local_time = utc_time.astimezone(pytz.timezone('Europe/Madrid'))
 
-        mensaje = f"Datos de {estacion_nombre} - Hora Oficial (CET/CEST): {local_time.strftime('%Y-%m-%d %H:%M:%S')}\n"
+        mensaje = f'Datos de {estacion_nombre} - Hora Oficial (CET/CEST): {local_time.strftime("%Y-%m-%d %H:%M:%S")}\n'
         titulos = {
             'ta': 'Temperatura Ambiente (°C)',
             'prec': 'Precipitación (mm)',
@@ -44,11 +44,11 @@ def enviar_datos_telegram(token, chat_id, datos, estacion_nombre):
         indicadores_seleccionados = ['ta', 'prec', 'vv', 'dv', 'hr', 'pres', 'inso']
         for ind in indicadores_seleccionados:
             if ind in datos:
-                mensaje += f"{titulos[ind]}: {datos[ind]}\n"
+                mensaje += f'{titulos[ind]}: {datos[ind]}\n'
 
         bot.send_message(chat_id, mensaje)
     else:
-        bot.send_message(chat_id, "Error: " + str(datos))
+        bot.send_message(chat_id, 'Error: ' + str(datos))
 
 def main():
     # Valores directos
@@ -60,9 +60,9 @@ def main():
         'Bilbao': '1082',
         'Mayorga': '2664B',
         'Ayamonte': '4642E',
-        "Lugo": "1518A",
-        "Lugo/rozas": "1505",
-        "Mondoñedo": "1344"
+        'Lugo': '1518A',
+        'Lugo/rozas': '1505',
+        'Mondoñedo': '1344'
     }
 
     for nombre, estacion_id in estaciones.items():
@@ -70,5 +70,5 @@ def main():
         for chat_id in chat_ids:
             enviar_datos_telegram(token, chat_id, datos_meteorologicos, nombre)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
