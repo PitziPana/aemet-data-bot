@@ -2,6 +2,10 @@ import requests
 import telebot
 import pytz
 from datetime import datetime
+from telebot import apihelper
+
+# Lista de IDs de usuarios que han bloqueado el bot
+blocked_users = ['1256474473']
 
 def obtener_datos_meteorologicos(api_key, estacion_id):
     url = f"https://opendata.aemet.es/opendata/api/observacion/convencional/datos/estacion/{estacion_id}/"
@@ -26,6 +30,10 @@ def obtener_datos_meteorologicos(api_key, estacion_id):
         return f'Error: {response.status_code}'
 
 def enviar_datos_telegram(token, chat_id, datos, estacion_nombre):
+    if chat_id in blocked_users:
+        print(f"El usuario {chat_id} ha bloqueado el bot. No se enviará el mensaje.")
+        return
+    
     bot = telebot.TeleBot(token)
     if isinstance(datos, dict):
         utc_time = datetime.strptime(datos['fint'], '%Y-%m-%dT%H:%M:%S%z')
@@ -46,9 +54,23 @@ def enviar_datos_telegram(token, chat_id, datos, estacion_nombre):
             if ind in datos:
                 mensaje += f'{titulos[ind]}: {datos[ind]}\n'
 
-        bot.send_message(chat_id, mensaje)
+        try:
+            bot.send_message(chat_id, mensaje)
+        except apihelper.ApiTelegramException as e:
+            if e.result_json['description'] == 'Forbidden: bot was blocked by the user':
+                print(f"Error: El bot fue bloqueado por el usuario {chat_id}. Añadiendo a la lista de bloqueados.")
+                blocked_users.append(chat_id)
+            else:
+                print(f"Error: {e}")
     else:
-        bot.send_message(chat_id, 'Error: ' + str(datos))
+        try:
+            bot.send_message(chat_id, 'Error: ' + str(datos))
+        except apihelper.ApiTelegramException as e:
+            if e.result_json['description'] == 'Forbidden: bot was blocked by the user':
+                print(f"Error: El bot fue bloqueado por el usuario {chat_id}. Añadiendo a la lista de bloqueados.")
+                blocked_users.append(chat_id)
+            else:
+                print(f"Error: {e}")
 
 def main():
     # Valores directos
