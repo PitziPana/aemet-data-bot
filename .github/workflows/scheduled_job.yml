@@ -1,4 +1,5 @@
-name: Ejecutar script meteorológico
+name: Ejecutar script meteorológico para que comience a funcionar otra vez
+
 
 on:
   schedule:
