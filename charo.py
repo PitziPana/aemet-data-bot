@@ -1,33 +1,43 @@
 import requests
 import telebot
 import pytz
+import time  # Importar para añadir tiempos de espera
 from datetime import datetime
 from telebot import apihelper
 
 # Lista de IDs de usuarios que han bloqueado el bot
 blocked_users = ['1256474473']
 
-def obtener_datos_meteorologicos(api_key, estacion_id):
+def obtener_datos_meteorologicos(api_key, estacion_id, reintentos=3, espera=5):
     url = f"https://opendata.aemet.es/opendata/api/observacion/convencional/datos/estacion/{estacion_id}/"
     headers = {"Authorization": f"Bearer {api_key}"}
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        datos_url = response.json().get('datos', '')
-        if datos_url:
-            data_response = requests.get(datos_url)
-            if data_response.status_code == 200:
-                datos_meteorologicos = data_response.json()
-                if datos_meteorologicos:
-                    ultima_entrada = sorted(datos_meteorologicos, key=lambda x: x['fint'], reverse=True)[0]
-                    return ultima_entrada
+
+    for intento in range(reintentos):
+        try:
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                datos_url = response.json().get('datos', '')
+                if datos_url:
+                    data_response = requests.get(datos_url)
+                    if data_response.status_code == 200:
+                        datos_meteorologicos = data_response.json()
+                        if datos_meteorologicos:
+                            ultima_entrada = sorted(datos_meteorologicos, key=lambda x: x['fint'], reverse=True)[0]
+                            return ultima_entrada
+                        else:
+                            return 'No hay datos disponibles.'
+                    else:
+                        return f'Error al recuperar datos: {data_response.status_code}'
                 else:
-                    return 'No hay datos disponibles.'
+                    return 'URL de datos no encontrada.'
             else:
-                return f'Error al recuperar datos: {data_response.status_code}'
-        else:
-            return 'URL de datos no encontrada.'
-    else:
-        return f'Error: {response.status_code}'
+                return f'Error: {response.status_code}'
+        except requests.exceptions.RequestException as e:
+            print(f"Intento {intento + 1} de {reintentos}: Error al conectar - {e}")
+            if intento < reintentos - 1:
+                time.sleep(espera)  # Esperar antes de intentar de nuevo
+            else:
+                return f"Error: No se pudo conectar después de {reintentos} intentos."
 
 def enviar_datos_telegram(token, chat_id, datos, estacion_nombre):
     if chat_id in blocked_users:
