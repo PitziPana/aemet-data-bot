@@ -92,9 +92,6 @@ def main():
         'Bilbao': '1082',
         'Mayorga': '2664B',
         'Ayamonte': '4642E',
-        'Lugo': '1518A',
-        'Lugo/rozas': '1505',
-        'Mondoñedo': '1344'
     }
 
     for nombre, estacion_id in estaciones.items():
