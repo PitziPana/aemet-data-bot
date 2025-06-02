@@ -91,10 +91,7 @@ def main():
     estaciones = {
         'Bilbao': '1082',
         'Mayorga': '2664B',
-        'Ayamonte': '4642E',
-        'Lugo': '1518A',
-        'Lugo/rozas': '1505',
-        'Mondoñedo': '1344'
+        'Ayamonte': '4642E'
     }
 
     for nombre, estacion_id in estaciones.items():
